@@ -4,7 +4,8 @@
   "dependencies": {
     "cloudinary": "^1.37.0",
     "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "@netlify/plugin-functions-core": "^2.0.0"
   },
   "scripts": {
     "build": "chmod -R +rw ."
