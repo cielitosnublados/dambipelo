@@ -34,10 +34,15 @@
       return luminance > 0.5 ? 'black' : 'white';
     }
 
-    fetch('/.netlify/functions/getColor')
-      .then(res => res.json())
-      .then(data => {
-        document.body.style.backgroundColor = data.color;
+fetch('/.netlify/functions/getColor')
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  })
+  .then(data => {
+    if (!data?.color) throw new Error("No color found");
+    const hex = data.color.startsWith('#') ? data.color : `#${data.color}`;
+    document.body.style.backgroundColor = hex;
         const textColor = getTextColor(data.color);
         document.getElementById('typewriter').style.color = textColor;
         
@@ -47,6 +52,10 @@
           showCursor: false
         });
       });
+.catch(err => {
+    console.error(err);
+    document.body.innerHTML = `Error: ${err.message}`;
+  });
   </script>
 </body>
 </html>
