@@ -3,7 +3,7 @@ const path = require('path');
 
 exports.handler = async () => {
   try {
-    const filePath = path.join(process.cwd(), 'color.json');
+    const filePath = path.join(__dirname, '..', 'color.json');
     const colorData = JSON.parse(fs.readFileSync(filePath));
     return {
       statusCode: 200,

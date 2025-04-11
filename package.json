@@ -1,6 +1,9 @@
 {
+  "name": "dambipelo",
+  "version": "1.0.0",
   "dependencies": {
+    "cloudinary": "^1.37.0",
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
   }
-}
+}x

@@ -36,25 +36,26 @@
 
 fetch('/.netlify/functions/getColor')
   .then(res => {
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return res.json();
   })
   .then(data => {
-    if (!data?.color) throw new Error("No color found");
+    if (!data?.color) throw new Error("No color data received");
     const hex = data.color.startsWith('#') ? data.color : `#${data.color}`;
     document.body.style.backgroundColor = hex;
-        const textColor = getTextColor(data.color);
-        document.getElementById('typewriter').style.color = textColor;
-        
-        new Typed('#typewriter', {
-          strings: [`El color de pelo de Dambi hoy es <strong>${data.name}</strong>.`],
-          typeSpeed: 50,
-          showCursor: false
-        });
-      });
-.catch(err => {
-    console.error(err);
-    document.body.innerHTML = `Error: ${err.message}`;
+    const textColor = getTextColor(hex);
+    document.getElementById('typewriter').style.color = textColor;
+    
+    new Typed('#typewriter', {
+      strings: [`El color de pelo de Dambi hoy es <strong>${data.name}</strong>.`],
+      typeSpeed: 50,
+      showCursor: false
+    });
+  })
+  .catch(err => {
+    console.error("Fetch error:", err);
+    document.getElementById('typewriter').innerText = 
+      "Error loading color. Check console.";
   });
   </script>
 </body>
