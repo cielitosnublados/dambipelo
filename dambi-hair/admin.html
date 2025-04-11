@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Update Hair Color</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 20px; }
+    input, button { margin: 10px; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Update Dambi's Hair Color</h1>
+  <input type="file" id="selfie" accept="image/*">
+  <button onclick="analyzeHair()">Analyze & Update</button>
+  <p>Or manually set:</p>
+  <input type="text" id="colorName" placeholder="rosa">
+  <input type="color" id="colorPicker">
+  <button onclick="updateColor()">Set Manually</button>
+
+  <script>
+    // AI Analysis (Cloudinary)
+    async function analyzeHair() {
+      const file = document.getElementById('selfie').files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+      await fetch('/.netlify/functions/analyze', { method: 'POST', body: formData });
+      alert("Updated via AI!");
+    }
+
+    // Manual Input
+    async function updateColor() {
+      const name = document.getElementById('colorName').value;
+      const hex = document.getElementById('colorPicker').value;
+      await fetch('/.netlify/functions/updateColor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, color: hex })
+      });
+      alert("Updated manually!");
+    }
+  </script>
+</body>
+</html>
