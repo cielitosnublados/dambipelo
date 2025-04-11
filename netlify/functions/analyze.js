@@ -1,4 +1,6 @@
 const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
+const path = require('path');
 
 exports.handler = async (event) => {
   // Configure with environment variables
