@@ -27,16 +27,30 @@
     }
 
     // Manual Input
-    async function updateColor() {
-      const name = document.getElementById('colorName').value;
-      const hex = document.getElementById('colorPicker').value;
-      await fetch('/.netlify/functions/updateColor', {
+  async function updateColor() {
+    const name = document.getElementById('colorName').value;
+    const hex = document.getElementById('colorPicker').value;
+    
+    try {
+      const response = await fetch('/.netlify/functions/updateColor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, color: hex })
       });
-      alert("Updated manually!");
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        alert('Color updated successfully!');
+        // Force refresh the main page
+        window.location.reload(true);
+      } else {
+        alert('Error: ' + (result.error || 'Unknown error'));
+      }
+    } catch (error) {
+      alert('Failed to update: ' + error.message);
     }
+  }
   </script>
 </body>
 </html>
